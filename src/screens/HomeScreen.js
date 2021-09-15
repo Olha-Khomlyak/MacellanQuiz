@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, SafeAreaView, Text, Dimensions } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { View, SafeAreaView, Text, Dimensions, FlatList, Animated } from 'react-native';
 import { styles } from '../constants/styles'
 import { colors } from '../constants'
 import { Icon, Input, Button } from 'react-native-elements';
@@ -8,10 +8,55 @@ import { PointerIcon } from '../components/PointerIcon'
 
 const windowWidth = Dimensions.get('window').width;
 
-
+const CARD_WIDTH = windowWidth * 0.70
+const SPACER = (windowWidth - CARD_WIDTH) / 2
 const HomeScreen = () => {
 
     const [activeIcon, setActiveIcon] = useState(1)
+    const scrollX = useRef(new Animated.Value(0)).current
+    const [currentIndex, setCurentIndex] = useState()
+    const cards = [
+        {
+            key: 'left-spacer'
+        },
+        {
+            key: 1,
+            color: 'yellow',
+            text: 'CARD_1'
+        },
+        {
+            key: 2,
+            color: 'blue',
+            text: 'CARD_2'
+        },
+        {
+            key: 3,
+            color: 'green',
+            text: 'CARD_3'
+        },
+        {
+            key: 'right-spacer'
+        },
+    ]
+
+    const handleViewableItemsChanged = useRef(({ viewableItems, changed }) => {
+        if (viewableItems.length > 0) {
+            console.log(viewableItems);
+            console.log(viewableItems[0].key == "left-spacer");
+            setCurentIndex(viewableItems[0].key == "left-spacer" ? viewableItems[0].index + 1 : viewableItems[0].index)
+        }
+    }, []);
+    const viewabilityConfig = {
+        viewAreaCoveragePercentThreshold: 70
+    }
+
+    const renderCell = ({ children, index, style, ...props }) => {
+        const zIndex = {
+            zIndex: index === currentIndex ? 2 : 0,
+        };
+
+        return <View style={[style, zIndex]} {...props}>{children}</View>;
+    };
 
     return (
         <SafeAreaView style={[styles.container]}>
@@ -36,10 +81,53 @@ const HomeScreen = () => {
                     />
                 </View>
             </View>
-            <View style={{ height: 190, backgroundColor: colors.PURPLE }}>
+            <View style={{ backgroundColor: colors.PURPLE }}>
+                <Animated.FlatList
+                    data={cards}
+                    renderItem={({ item, index }) => {
+                        if(!item.color) {
+                            return (
+                                <View style={{width:SPACER}}/>
+                            )
+                        }
+                        const inputRange = [
+                            (index - 2) * CARD_WIDTH,
+                            (index - 1) * CARD_WIDTH,
+                            index * CARD_WIDTH,
+                        ]
+                        const scaleCard = scrollX.interpolate({
+                            inputRange: inputRange,
+                            outputRange:[0.7, 1, 0.7],
+                        })
 
+                        const moveHorizontal = scrollX.interpolate({
+                            inputRange: inputRange,
+                            outputRange:[-50, 0, 50],
+                            extrapolate:'clamp'
+                        })
+                        return (
+                            <View style={{ width: CARD_WIDTH}}>
+                            <Animated.View style={{  height: 200, borderRadius: 30, backgroundColor: item.color, margin: 10, transform:[{scaleY: scaleCard}, {translateX: moveHorizontal}] }}>
+                                <Text>{item.text}</Text>
+                            </Animated.View>
+                            </View>
+                        )
+                    }}
+                    horizontal
+                    snapToInterval={CARD_WIDTH}
+                    decelerationRate={0}
+                    bounces={false}
+                    onScroll={Animated.event(
+                        [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+                        { useNativeDriver: true }
+                    )}
+                    scrollEventThrottle={16}
+                    CellRendererComponent={renderCell}
+                    onViewableItemsChanged={handleViewableItemsChanged.current}
+                    viewabilityConfig={viewabilityConfig}
+                />
             </View>
-            <View style={{alignItems:'center'}}>
+            <View style={{ alignItems: 'center' }}>
                 <IconButton
                     title='Kampanyalar'
                     iconName='gift'
