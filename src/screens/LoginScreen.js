@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, SafeAreaView, StyleSheet, Pressable } from 'react-native';
-import { styles } from '../constants/styles'
+import { styles, WIDTH, HEIGHT } from '../constants/styles'
 import { colors } from '../constants'
-import { Button, Input, Icon } from 'react-native-elements'
+import { Button, Input, Image } from 'react-native-elements'
 
 const LoginScreen = (props) => {
 
@@ -11,31 +11,39 @@ const LoginScreen = (props) => {
     }
 
     return (
-        <SafeAreaView style={[styles.container, { padding: 10 }]}>
-            <Input
-                placeholder='5xx xxx xx xx'
-                leftIcon={{ type: 'font-awesome-5', name: 'mobile-alt', color: colors.ICON }}
-                placeholderTextColor={colors.GREY}
-                inputStyle={{ fontSize: 20 }}
-                keyboardType='numeric'
-                maxLength={20}
-                inputContainerStyle={{ borderColor: colors.BORDER }}
-            />
-            <Input
-                placeholder='⬤⬤⬤⬤⬤⬤⬤'
-                leftIcon={{ type: 'font-awesome-5', name: 'lock', color: colors.ICON }}
-                placeholderTextColor={colors.GREY}
-                inputStyle={{ fontSize: 20 }}
-                secureTextEntry={true}
-                inputContainerStyle={{ borderColor: colors.BORDER }}
-            />
+        <SafeAreaView style={[styles.container, { alignItems: 'center',}]}>
+            <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: HEIGHT * .1 }}>
+                <Image
+                    source={require('../assets/fonts/images/logo.png')}
+                    style={localStyles.logoStyle}
+                />
+            </View>
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <Input
+                    placeholder='5xx xxx xx xx'
+                    leftIcon={{ type: 'font-awesome-5', name: 'mobile-alt', color: colors.ICON }}
+                    placeholderTextColor={colors.GREY}
+                    inputStyle={{ fontSize: 20 }}
+                    keyboardType='numeric'
+                    maxLength={20}
+                    inputContainerStyle={localStyles.inputStyle}
+                />
+                <Input
+                    placeholder='⬤⬤⬤⬤⬤⬤⬤'
+                    leftIcon={{ type: 'font-awesome-5', name: 'lock', color: colors.ICON }}
+                    placeholderTextColor={colors.GREY}
+                    inputStyle={{ fontSize: 20 }}
+                    secureTextEntry={true}
+                    inputContainerStyle={localStyles.inputStyle}
+                />
+            </View>
             <Pressable>
-                <Text style={[localStyles.textStyle, styles.textStyle, { fontSize: 12 }]}>Şifremi Unuttum</Text>
+                <Text style={[localStyles.textStyle, styles.textStyle, { fontSize: 12 }]} adjustsFontSizeToFit >Şifremi Unuttum</Text>
             </Pressable>
             <Button
                 title='Giriş Yap'
-                buttonStyle={[styles.button, {backgroundColor: colors.PURPLE}]}
-                titleStyle={[styles.textStyle, { fontSize: 21, color: colors.WHITE, fontWeight:'bold' }]}
+                buttonStyle={[styles.button, { backgroundColor: colors.PURPLE, width: WIDTH * .84, marginTop: 25 }]}
+                titleStyle={[styles.textStyle, { fontSize: 21, color: colors.WHITE, fontWeight: 'bold' }]}
                 onPress={goToHomeScreen}
             />
         </SafeAreaView>
@@ -52,4 +60,13 @@ const localStyles = StyleSheet.create({
     textStyle: {
         textAlign: 'center',
     },
+    logoStyle: {
+        width: WIDTH * .34,
+        height: HEIGHT * .19,
+        resizeMode: 'contain'
+    },
+    inputStyle: {
+        borderColor: colors.BORDER,
+        width: WIDTH * .84
+    }
 })
