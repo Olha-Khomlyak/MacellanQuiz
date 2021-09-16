@@ -21,7 +21,7 @@ const LoginScreen = (props) => {
             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                 <Input
                     placeholder='5xx xxx xx xx'
-                    leftIcon={{ type: 'font-awesome-5', name: 'mobile-alt', color: colors.ICON }}
+                    leftIcon={{ type: 'font-awesome-5', name: 'mobile-alt', color: colors.ICON, style: { marginRight: 10 } }}
                     placeholderTextColor={colors.GREY}
                     inputStyle={{ fontSize: 20 }}
                     keyboardType='numeric'
@@ -29,8 +29,9 @@ const LoginScreen = (props) => {
                     inputContainerStyle={localStyles.inputStyle}
                 />
                 <Input
-                    placeholder='⬤⬤⬤⬤⬤⬤⬤'
-                    leftIcon={{ type: 'font-awesome-5', name: 'lock', color: colors.ICON }}
+                    placeholder='●●●●●●●'
+                    leftIcon={{ type: 'font-awesome-5', name: 'lock', color: colors.ICON , style: {marginRight:10}}}
+                    
                     placeholderTextColor={colors.GREY}
                     inputStyle={{ fontSize: 20 }}
                     secureTextEntry={true}

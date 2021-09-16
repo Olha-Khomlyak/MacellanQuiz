@@ -27,8 +27,17 @@ export const PointerIcon = (props) => {
                 reverse
                 reverseColor={active ? colors.WHITE : colors.PURPLE}
                 color={active ? colors.PURPLE : colors.WHITE}
-                containerStyle={{ marginLeft: 5 }}
-                containerStyle={{ position: 'absolute', top: 1, alignSelf: 'center' }}
+                containerStyle={{ position: 'absolute', top: 1, alignSelf: 'center',
+                    shadowColor: "#00000",
+                    shadowOffset: {
+                        width: 0,
+                        height: 2,
+                    },
+                    shadowOpacity: 0.14,
+                    shadowRadius: 3.84,
+                    elevation: 5,
+                    backgroundColor:"#000"
+             }}
                 onPress={onPress}
             />
 

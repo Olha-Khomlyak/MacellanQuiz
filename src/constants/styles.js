@@ -33,7 +33,17 @@ const styles = StyleSheet.create({
     button: {
         height: 60,
         borderRadius: 30
-    }
+    },
+    ovalBgH: {
+        backgroundColor: colors.PURPLE,
+        width: 50, height: 35,
+        borderBottomRightRadius: 150,
+        borderBottomLeftRadius: 150,
+        transform: [
+            { scaleX: WIDTH * .02 }
+        ],
+        alignSelf: 'center'
+    },
 })
 
 export { styles, HEIGHT, WIDTH }

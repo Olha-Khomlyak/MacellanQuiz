@@ -47,7 +47,7 @@ const DrawerNavigator = () => {
                     <DrawerContentScrollView {...props}>
                         <DrawerItemList {...props}
                         />
-                        <DrawerItem label="Logout" onPress={() => {
+                        <DrawerItem label="Çıkış" onPress={() => {
                             props.navigation.dispatch({
                                 ...CommonActions.reset({
                                     index: 0,
